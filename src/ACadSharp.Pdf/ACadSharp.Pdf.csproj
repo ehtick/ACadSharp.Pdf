@@ -17,7 +17,7 @@
 	<PropertyGroup>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<Version>0.1.2-beta</Version>
+		<Version>0.1.3-beta</Version>
 		<PackageOutputPath>../nupkg</PackageOutputPath>
 	</PropertyGroup>
 	
@@ -26,7 +26,7 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(Configuration)' == 'Release'">
-		<PackageReference Include="ACadSharp" Version="*" />
+		<PackageReference Include="ACadSharp" Version="3.2.*" />
 	</ItemGroup>
 
 	<ItemGroup>
