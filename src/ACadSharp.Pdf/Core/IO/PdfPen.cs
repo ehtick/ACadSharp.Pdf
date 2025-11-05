@@ -168,7 +168,7 @@ namespace ACadSharp.Pdf.Core.IO
 
 		private bool drawableLineType(LineType lineType)
 		{
-			return lineType.IsComplex && !lineType.Segments.Any(s => s.IsShape);
+			return lineType.IsComplex && !lineType.HasShapes;
 		}
 
 		private void drawArc(Arc arc, Transform transform)
