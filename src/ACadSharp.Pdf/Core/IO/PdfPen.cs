@@ -232,7 +232,8 @@ namespace ACadSharp.Pdf.Core.IO
 
 		private void drawPolyline(IPolyline polyline, Transform transform)
 		{
-			IEnumerable<XYZ> vertices = polyline.Vertices.Select(v => transform.ApplyTransform(v.Location.Convert<XYZ>()));
+			IEnumerable<XYZ> vertices = polyline.GetPoints<XYZ>(this._configuration.ArcPrecision)
+				.Select(v => v = transform.ApplyTransform(v));
 
 			this.appendXY(vertices.First(), PdfKey.BeginPath);
 
