@@ -266,24 +266,19 @@ namespace ACadSharp.Pdf.Core.IO
 			this._sb.Append(' ');
 			this._sb.Append(PdfKey.TypeFont);
 			this._sb.AppendLine();
+			this.appendXY(text.InsertPoint, "Td");
 
 			switch (text)
 			{
-				//case MText mtext:
-				//	double spacing = 0;
-				//	XY pos = mtext.InsertPoint.Convert<XY>();
-				//	foreach (var l in mtext.GetTextLines())
-				//	{
-				//		//this.appendXY(new XY(pos.X, pos.Y - spacing), "Td");
-				//		this.appendXY(new XY(pos.X, spacing), "Td");
-				//		this._sb.AppendLine($"({l}) Tj");
-
-				//		spacing += mtext.LineSpacing;
-				//	}
-				//	break;
+				case MText mtext:
+					this._sb.AppendLine($"{this.toPdfDouble(text.Height)} TL");
+					foreach (var l in mtext.GetTextLines())
+					{
+						this._sb.AppendLine($"T* ({l}) Tj");
+					}
+					break;
 				default:
-					this.appendXY(text.InsertPoint, "Td");
-					this._sb.AppendLine($"({text.Value}) Tj");
+					this._sb.AppendLine($"({text.Value}) {PdfKey.TextString}");
 					break;
 			}
 

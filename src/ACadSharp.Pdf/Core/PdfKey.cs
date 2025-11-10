@@ -11,8 +11,16 @@
 		/// </summary>
 		public const string Arc = "c";
 
+		/// <summary>
+		/// End a text object, discarding the text matrix. 
+		/// </summary>
 		public const string BasicTextEnd = "ET";
 
+		/// <summary>
+		/// Begin a text object, initializing the text matrix, Tm, and the text line matrix,
+		/// Tlm, to the identity matrix.Text objects shall not be nested; a second BT shall
+		/// not appear before an ET.
+		/// </summary>
 		public const string BasicTextStart = "BT";
 
 		//Path Construction Operators
@@ -123,7 +131,20 @@
 		/// </summary>
 		public const string TextTranslation = "Td";
 
+		/// <summary>
+		/// Set the text font, Tf
+		/// , to font and the text font size, Tfs, to size.font shall be
+		/// the name of a font resource in the Font subdictionary of the current
+		/// resource dictionary; size shall be a number representing a scale factor.
+		/// There is no initial value for either font or size; they shall be specified
+		/// explicitly by using Tf before any text is shown.
+		/// </summary>
 		public const string TypeFont = "Tf";
+
+		/// <summary>
+		/// Show a text string. 
+		/// </summary>
+		public const string TextString = "Tj";
 
 		/// <summary>
 		/// (Optional; PDF 1.6) A positive number that shall give the size of
