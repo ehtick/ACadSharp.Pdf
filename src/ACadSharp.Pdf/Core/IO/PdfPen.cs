@@ -266,6 +266,7 @@ namespace ACadSharp.Pdf.Core.IO
 			this._sb.Append(' ');
 			this._sb.Append(PdfKey.TypeFont);
 			this._sb.AppendLine();
+
 			this.appendXY(text.InsertPoint, "Td");
 
 			switch (text)
@@ -274,7 +275,7 @@ namespace ACadSharp.Pdf.Core.IO
 					this._sb.AppendLine($"{this.toPdfDouble(text.Height)} TL");
 					foreach (var l in mtext.GetTextLines())
 					{
-						this._sb.AppendLine($"T* ({l}) Tj");
+						this._sb.AppendLine($"T* ({l}) {PdfKey.TextString}");
 					}
 					break;
 				default:
