@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net5.0;net6.0;net7.0;net48;netstandard2.1</TargetFrameworks>
+		<TargetFrameworks>net5.0;net6.0;net7.0;net8.0;net9.0;net48;netstandard2.1</TargetFrameworks>
 		<Authors>DomCr</Authors>
 		<PackageId>ACadSharp.Pdf</PackageId>
 		<PackageTags>C# Dwg Dxf Pdf</PackageTags>
@@ -19,6 +19,8 @@
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<Version>0.1.4-beta</Version>
 		<PackageOutputPath>../nupkg</PackageOutputPath>
+		<SignAssembly>True</SignAssembly>
+		<AssemblyOriginatorKeyFile>../ACadSharp.Pdf.snk</AssemblyOriginatorKeyFile>
 	</PropertyGroup>
 	
 	<ItemGroup Condition="'$(Configuration)' != 'Release'">
