@@ -99,14 +99,14 @@ namespace ACadSharp.Pdf.Core.IO
 
 		private void appendPath(params XY[] vertices)
 		{
-			this.appendXY(vertices.First(), PdfKey.BeginPath);
+			this.appendXY(vertices[0], PdfKey.BeginPath);
 
-			for (int i = 1; vertices.Count() > i; i++)
+			for (int i = 1; vertices.Length > i; i++)
 			{
 				this.appendXY(vertices[i], PdfKey.Line);
 			}
 
-			this.appendXY(vertices.Last(), PdfKey.Stroke);
+			this.appendXY(vertices[vertices.Length - 1], PdfKey.Stroke);
 		}
 
 		private void appendXY(double x, double y, string key)
@@ -174,8 +174,8 @@ namespace ACadSharp.Pdf.Core.IO
 		private void drawArc(Arc arc, Transform transform)
 		{
 			XY[] vertices = arc.PolygonalVertexes(this._configuration.ArcPrecision)
-				.Select(v => transform.ApplyTransform((XYZ)v))
-				.Select(v => (XY)v)
+				.Select(v => transform.ApplyTransform(v))
+				.Select(v => v.Convert<XY>())
 				.ToArray();
 
 			this.appendPath(vertices);
