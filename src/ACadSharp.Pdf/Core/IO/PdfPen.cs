@@ -99,14 +99,14 @@ namespace ACadSharp.Pdf.Core.IO
 
 		private void appendPath(params XY[] vertices)
 		{
-			this.appendXY(vertices.First(), PdfKey.BeginPath);
+			this.appendXY(vertices[0], PdfKey.BeginPath);
 
-			for (int i = 1; vertices.Count() > i; i++)
+			for (int i = 1; vertices.Length > i; i++)
 			{
 				this.appendXY(vertices[i], PdfKey.Line);
 			}
 
-			this.appendXY(vertices.Last(), PdfKey.Stroke);
+			this.appendXY(vertices[vertices.Length - 1], PdfKey.Stroke);
 		}
 
 		private void appendXY(double x, double y, string key)
@@ -174,8 +174,8 @@ namespace ACadSharp.Pdf.Core.IO
 		private void drawArc(Arc arc, Transform transform)
 		{
 			XY[] vertices = arc.PolygonalVertexes(this._configuration.ArcPrecision)
-				.Select(v => transform.ApplyTransform((XYZ)v))
-				.Select(v => (XY)v)
+				.Select(v => transform.ApplyTransform(v))
+				.Select(v => v.Convert<XY>())
 				.ToArray();
 
 			this.appendPath(vertices);
@@ -232,7 +232,8 @@ namespace ACadSharp.Pdf.Core.IO
 
 		private void drawPolyline(IPolyline polyline, Transform transform)
 		{
-			IEnumerable<XYZ> vertices = polyline.Vertices.Select(v => transform.ApplyTransform(v.Location.Convert<XYZ>()));
+			IEnumerable<XYZ> vertices = polyline.GetPoints<XYZ>(this._configuration.ArcPrecision)
+				.Select(v => v = transform.ApplyTransform(v));
 
 			this.appendXY(vertices.First(), PdfKey.BeginPath);
 
@@ -266,23 +267,19 @@ namespace ACadSharp.Pdf.Core.IO
 			this._sb.Append(PdfKey.TypeFont);
 			this._sb.AppendLine();
 
+			this.appendXY(text.InsertPoint, "Td");
+
 			switch (text)
 			{
-				//case MText mtext:
-				//	double spacing = 0;
-				//	XY pos = mtext.InsertPoint.Convert<XY>();
-				//	foreach (var l in mtext.GetTextLines())
-				//	{
-				//		//this.appendXY(new XY(pos.X, pos.Y - spacing), "Td");
-				//		this.appendXY(new XY(pos.X, spacing), "Td");
-				//		this._sb.AppendLine($"({l}) Tj");
-
-				//		spacing += mtext.LineSpacing;
-				//	}
-				//	break;
+				case MText mtext:
+					this._sb.AppendLine($"{this.toPdfDouble(text.Height)} TL");
+					foreach (var l in mtext.GetTextLines())
+					{
+						this._sb.AppendLine($"T* ({l}) {PdfKey.TextString}");
+					}
+					break;
 				default:
-					this.appendXY(text.InsertPoint, "Td");
-					this._sb.AppendLine($"({text.Value}) Tj");
+					this._sb.AppendLine($"({text.Value}) {PdfKey.TextString}");
 					break;
 			}
 
